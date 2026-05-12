@@ -1,0 +1,86 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Location & Weather Model",
+        "description": "Enter the coordinates and choose the forecasting model.",
+        "data": {
+          "name": "Location name",
+          "latitude": "Latitude",
+          "longitude": "Longitude",
+          "model": "Weather model",
+          "weather_entity": "Create weather entity"
+        }
+      },
+      "timing": {
+        "title": "Update interval & forecast range",
+        "data": {
+          "update_interval": "Update interval (minutes, min 15)",
+          "forecast_days": "Forecast days (1–16)",
+          "past_days": "Past days to include (0–92)"
+        }
+      },
+      "current_vars": {
+        "title": "Current condition variables",
+        "description": "Variables updated in real time on every fetch.",
+        "data": {
+          "current_variables": "Current variables"
+        }
+      },
+      "hourly_vars": {
+        "title": "Hourly variables",
+        "description": "Shows the current hour's value. Next 48 h stored as forecast attribute.",
+        "data": {
+          "hourly_variables": "Hourly variables"
+        }
+      },
+      "daily_vars": {
+        "title": "Daily variables",
+        "description": "Shows today's value. Next 14 days stored as forecast attribute.",
+        "data": {
+          "daily_variables": "Daily variables"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Location & Weather Model",
+        "data": {
+          "name": "Location name",
+          "latitude": "Latitude",
+          "longitude": "Longitude",
+          "model": "Weather model",
+          "weather_entity": "Create weather entity"
+        }
+      },
+      "timing": {
+        "title": "Update interval & forecast range",
+        "data": {
+          "update_interval": "Update interval (minutes, min 15)",
+          "forecast_days": "Forecast days (1–16)",
+          "past_days": "Past days to include (0–92)"
+        }
+      },
+      "current_vars": {
+        "title": "Current condition variables",
+        "data": {
+          "current_variables": "Current variables"
+        }
+      },
+      "hourly_vars": {
+        "title": "Hourly variables",
+        "data": {
+          "hourly_variables": "Hourly variables"
+        }
+      },
+      "daily_vars": {
+        "title": "Daily variables",
+        "data": {
+          "daily_variables": "Daily variables"
+        }
+      }
+    }
+  }
+}

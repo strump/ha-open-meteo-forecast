@@ -1,0 +1,11 @@
+{
+  "domain": "open_meteo_advanced",
+  "name": "Open-Meteo Advanced",
+  "version": "1.0.0",
+  "config_flow": true,
+  "documentation": "https://open-meteo.com/en/docs",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": [],
+  "iot_class": "cloud_polling"
+}
