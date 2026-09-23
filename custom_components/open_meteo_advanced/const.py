@@ -1,8 +1,8 @@
-"""Constants for Open-Meteo Advanced integration."""
+"""Constants for Open-Meteo Weather Forecast integration."""
 from dataclasses import dataclass
 from typing import Optional
 
-DOMAIN = "open_meteo_advanced"
+DOMAIN = "open_meteo_forecast"
 
 CONF_NAME = "name"
 CONF_LATITUDE = "latitude"

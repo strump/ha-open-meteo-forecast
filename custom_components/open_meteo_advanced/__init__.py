@@ -1,4 +1,4 @@
-"""Open-Meteo Advanced integration."""
+"""Open-Meteo Weather Forecast integration."""
 from __future__ import annotations
 
 import logging

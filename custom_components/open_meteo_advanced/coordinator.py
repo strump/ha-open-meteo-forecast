@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for Open-Meteo Advanced."""
+"""DataUpdateCoordinator for Open-Meteo Weather Forecast."""
 from __future__ import annotations
 
 import logging

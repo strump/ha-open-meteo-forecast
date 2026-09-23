@@ -1,4 +1,4 @@
-"""Config flow for Open-Meteo Advanced."""
+"""Config flow for Open-Meteo Weather Forecast."""
 from __future__ import annotations
 
 import logging
@@ -48,7 +48,7 @@ _MODEL_KEYS = list(WEATHER_MODELS.keys())
 
 
 class OpenMeteoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Multi-step config flow for Open-Meteo Advanced."""
+    """Multi-step config flow for Open-Weather Forecast."""
 
     VERSION = 1
 

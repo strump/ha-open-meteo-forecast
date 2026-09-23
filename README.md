@@ -1,4 +1,4 @@
-# Open-Meteo Advanced — Home Assistant Integration
+# Open-Meteo Forecast — Home Assistant Integration
 
 A custom integration for [Home Assistant](https://www.home-assistant.io/) that exposes the full power of the [Open-Meteo](https://open-meteo.com/) weather API: choose any forecasting model, select individual variables as sensors, and get a complete `weather` entity with hourly and daily forecasts.
 
@@ -32,12 +32,12 @@ A custom integration for [Home Assistant](https://www.home-assistant.io/) that e
 ### Manual
 
 1. Download or clone this repository.
-2. Copy the `custom_components/open_meteo_advanced/` folder into your HA configuration directory:
+2. Copy the `custom_components/open_meteo_forecast/` folder into your HA configuration directory:
    ```
-   <config>/custom_components/open_meteo_advanced/
+   <config>/custom_components/open_meteo_forecast/
    ```
 3. Restart Home Assistant.
-4. Go to **Settings → Devices & Services → + Add Integration** and search for **Open-Meteo Advanced**.
+4. Go to **Settings → Devices & Services → + Add Integration** and search for **Open-Meteo Weather Forecast**.
 
 ### HACS (coming soon)
 
@@ -74,7 +74,7 @@ Enter variable names separated by commas. Leaving a field blank creates no senso
 - **Step 4** — Hourly variables
 - **Step 5** — Daily variables
 
-All settings can be changed at any time via **Settings → Devices & Services → Open-Meteo Advanced → Configure**.
+All settings can be changed at any time via **Settings → Devices & Services → Open-Meteo Weather Forecast → Configure**.
 
 ---
 
