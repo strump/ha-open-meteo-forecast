@@ -10,6 +10,12 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 import homeassistant.helpers.config_validation as cv
 
+from homeassistant.helpers.selector import (
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectOptionDict,
+)
+
 from .const import (
     CONF_CURRENT_VARS,
     CONF_DAILY_VARS,
@@ -61,7 +67,15 @@ class OpenMeteoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
                 vol.Required(CONF_LATITUDE, default=0.0): vol.Coerce(float),
                 vol.Required(CONF_LONGITUDE, default=0.0): vol.Coerce(float),
-                vol.Required(CONF_MODEL, default="best_match"): vol.In(_MODEL_KEYS),
+                vol.Required(CONF_MODEL, msg = "Models details you can find at https://open-meteo.com/en/docs/model-updates",
+                             default="best_match"): SelectSelector(
+                    SelectSelectorConfig(
+                        options=[
+                            SelectOptionDict(value=key, label=model.model_name)
+                            for key, model in WEATHER_MODELS.items()
+                        ]
+                    )
+                ),
                 vol.Required(CONF_WEATHER_ENTITY, default=True): bool,
             }
         )
