@@ -8,6 +8,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.core import callback
+import homeassistant.helpers.config_validation as cv
 
 from .const import (
     CONF_CURRENT_VARS,
@@ -101,10 +102,12 @@ class OpenMeteoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         schema = vol.Schema(
             {
-                vol.Optional(CONF_CURRENT_VARS, default=""): str,
+                vol.Optional(CONF_CURRENT_VARS, default=""): cv.multi_select(_CURRENT_KEYS),
             }
         )
-        description = "Inserisci le variabili separate da virgola.\nDisponibili: " + ", ".join(_CURRENT_KEYS)
+
+
+        description = "Enter the variables separated by commas.\nAvailable: " + ", ".join(_CURRENT_KEYS)
         return self.async_show_form(
             step_id="current_vars",
             data_schema=schema,
