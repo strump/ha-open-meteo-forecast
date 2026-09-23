@@ -1,6 +1,6 @@
 {
-  "domain": "open_meteo_advanced",
-  "name": "Open-Meteo Advanced",
+  "domain": "open_meteo_forecast",
+  "name": "Open-Meteo Weather Forecast",
   "version": "1.0.0",
   "config_flow": true,
   "documentation": "https://open-meteo.com/en/docs",
