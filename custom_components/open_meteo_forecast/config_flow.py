@@ -11,6 +11,8 @@ from homeassistant.core import callback
 import homeassistant.helpers.config_validation as cv
 
 from homeassistant.helpers.selector import (
+    LocationSelector,
+    LocationSelectorConfig,
     SelectSelector,
     SelectSelectorConfig,
     SelectOptionDict,
@@ -23,7 +25,8 @@ from .const import (
     CONF_HOURLY_VARS,
     CONF_LATITUDE,
     CONF_LONGITUDE,
-    CONF_MODEL,
+    CONF_LOCATION,
+    CONF_MODEL_ID,
     CONF_NAME,
     CONF_PAST_DAYS,
     CONF_UPDATE_INTERVAL,
@@ -46,6 +49,8 @@ _DAILY_KEYS = list(DAILY_VARIABLES.keys())
 _CURRENT_KEYS = list(CURRENT_VARIABLES.keys())
 _MODEL_KEYS = list(WEATHER_MODELS.keys())
 
+default_location = {CONF_LATITUDE: 48.0, CONF_LONGITUDE: 2.0}
+
 
 class OpenMeteoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Multi-step config flow for Open-Weather Forecast."""
@@ -65,9 +70,10 @@ class OpenMeteoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
-                vol.Required(CONF_LATITUDE, default=0.0): vol.Coerce(float),
-                vol.Required(CONF_LONGITUDE, default=0.0): vol.Coerce(float),
-                vol.Required(CONF_MODEL, msg = "Models details you can find at https://open-meteo.com/en/docs/model-updates",
+                vol.Required(CONF_LOCATION, default=default_location): LocationSelector(
+                    LocationSelectorConfig(radius=False)
+                ),
+                vol.Required(CONF_MODEL_ID, msg = "Models details you can find at https://open-meteo.com/en/docs/model-updates",
                              default="best_match"): SelectSelector(
                     SelectSelectorConfig(
                         options=[
@@ -197,9 +203,10 @@ class OpenMeteoOptionsFlow(config_entries.OptionsFlow):
         schema = vol.Schema(
             {
                 vol.Required(CONF_NAME, default=self._data.get(CONF_NAME, DEFAULT_NAME)): str,
-                vol.Required(CONF_LATITUDE, default=self._data.get(CONF_LATITUDE, 0.0)): vol.Coerce(float),
-                vol.Required(CONF_LONGITUDE, default=self._data.get(CONF_LONGITUDE, 0.0)): vol.Coerce(float),
-                vol.Required(CONF_MODEL, default=self._data.get(CONF_MODEL, "best_match")): vol.In(_MODEL_KEYS),
+                vol.Required(CONF_LOCATION, default=default_location): LocationSelector(
+                    LocationSelectorConfig(radius=False)
+                ),
+                vol.Required(CONF_MODEL_ID, default=self._data.get(CONF_MODEL_ID, "best_match")): vol.In(_MODEL_KEYS),
                 vol.Required(CONF_WEATHER_ENTITY, default=self._data.get(CONF_WEATHER_ENTITY, True)): bool,
             }
         )

@@ -15,7 +15,7 @@ from .const import (
     CONF_CURRENT_VARS,
     CONF_DAILY_VARS,
     CONF_HOURLY_VARS,
-    CONF_MODEL,
+    CONF_MODEL_ID,
     CONF_NAME,
     CURRENT_VARIABLES,
     DAILY_VARIABLES,
@@ -85,7 +85,7 @@ class OpenMeteoSensor(CoordinatorEntity[OpenMeteoCoordinator], SensorEntity):
         self._data_key = f"{var_type}_{var_name}"
         self._forecast_key = f"{var_type}_{var_name}_forecast"
 
-        location_name = entry.data.get(CONF_NAME, "Open-Meteo")
+        location_name = entry.data.get(CONF_NAME, "Open-Meteo Forecast")
         type_label = {"current": "Current", "hourly": "Hourly", "daily": "Daily"}[var_type]
 
         self._attr_unique_id = f"{entry.entry_id}_{var_type}_{var_name}"
@@ -102,7 +102,7 @@ class OpenMeteoSensor(CoordinatorEntity[OpenMeteoCoordinator], SensorEntity):
             identifiers={(DOMAIN, entry.entry_id)},
             name=location_name,
             manufacturer="Open-Meteo",
-            model=entry.options.get(CONF_MODEL, entry.data.get(CONF_MODEL, "best_match")),
+            model=entry.options.get(CONF_MODEL_ID, entry.data.get(CONF_MODEL_ID, "best_match")),
             configuration_url="https://open-meteo.com/en/docs",
         )
 

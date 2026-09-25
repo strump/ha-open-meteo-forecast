@@ -10,7 +10,7 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_MODEL, CONF_NAME, DOMAIN
+from .const import CONF_MODEL_ID, CONF_NAME, DOMAIN
 from .coordinator import OpenMeteoCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -77,9 +77,9 @@ class OpenMeteoWeatherEntity(CoordinatorEntity[OpenMeteoCoordinator], WeatherEnt
         self._attr_unique_id = f"{entry.entry_id}_weather"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
-            name=entry.data.get(CONF_NAME, "Open-Meteo"),
+            name=entry.data.get(CONF_NAME, "Open-Meteo Forecast"),
             manufacturer="Open-Meteo",
-            model=entry.options.get(CONF_MODEL, entry.data.get(CONF_MODEL, "best_match")),
+            model=entry.options.get(CONF_MODEL_ID, entry.data.get(CONF_MODEL_ID, "best_match")),
             configuration_url="https://open-meteo.com/en/docs",
         )
 

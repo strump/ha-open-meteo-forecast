@@ -7,7 +7,8 @@ DOMAIN = "open_meteo_forecast"
 CONF_NAME = "name"
 CONF_LATITUDE = "latitude"
 CONF_LONGITUDE = "longitude"
-CONF_MODEL = "model"
+CONF_LOCATION = "location"
+CONF_MODEL_ID = "model_id"
 CONF_FORECAST_DAYS = "forecast_days"
 CONF_PAST_DAYS = "past_days"
 CONF_UPDATE_INTERVAL = "update_interval"
@@ -15,14 +16,15 @@ CONF_HOURLY_VARS = "hourly_variables"
 CONF_DAILY_VARS = "daily_variables"
 CONF_CURRENT_VARS = "current_variables"
 
-DEFAULT_NAME = "Open-Meteo"
+DEFAULT_NAME = "Open-Meteo Forecast"
 DEFAULT_UPDATE_INTERVAL = 60  # minutes
 DEFAULT_FORECAST_DAYS = 7
 DEFAULT_PAST_DAYS = 0
 
 CONF_WEATHER_ENTITY = "weather_entity"
 
-API_BASE_URL = "https://api.open-meteo.com/v1/forecast"
+API_FORECASE_BASE_URL = "https://api.open-meteo.com/v1/forecast"
+API_ENSEMBLE_BASE_URL = "https://ensemble-api.open-meteo.com/v1/ensemble"
 
 # Variables always fetched when the weather entity is enabled
 WEATHER_CURRENT_VARS = [
@@ -192,6 +194,13 @@ class ForecastModel:
 # Models are extracted from https://open-meteo.com/en/docs/model-updates
 # Only 'forecast' and 'ensemble' models are listed.
 WEATHER_MODELS: dict[str, ForecastModel] = {
+    "best_match": ForecastModel(
+            provider = "Open-Meteo",
+            model_name = "Best Match",
+            type = "forecast",
+            id = "best_match",
+            areas = [],
+        ),
     "cma_grapes_global": ForecastModel(
             provider = "CMA",
             model_name = "GFS Grapes 0.125°",
@@ -472,102 +481,11 @@ WEATHER_MODELS: dict[str, ForecastModel] = {
             id = "ukmo_uk_deterministic_2km",
             areas = ['gb'],
         ),
-    "cmc_gem_geps": ForecastModel(
-            provider = "Canadian Weather Service",
-            model_name = "GDPS 0.25° Ensemble",
-            type = "ensemble",
-            id = "cmc_gem_geps",
-            areas = [],
-        ),
-    "dwd_icon_eps": ForecastModel(
-            provider = "DWD",
-            model_name = "ICON-EPS",
-            type = "ensemble",
-            id = "dwd_icon_eps",
-            areas = [],
-        ),
-    "dwd_icon_eu_eps": ForecastModel(
-            provider = "DWD",
-            model_name = "ICON-EU-EPS",
-            type = "ensemble",
-            id = "dwd_icon_eu_eps",
-            areas = ['european_union'],
-        ),
-    "dwd_icon_d2_eps": ForecastModel(
-            provider = "DWD",
-            model_name = "ICON-D2-EPS",
-            type = "ensemble",
-            id = "dwd_icon_d2_eps",
-            areas = ['de', 'ch', 'at'],
-        ),
-    "ecmwf_ifs025_ensemble": ForecastModel(
-            provider = "ECMWF",
-            model_name = "IFS 0.25° Ensemble",
-            type = "ensemble",
-            id = "ecmwf_ifs025_ensemble",
-            areas = [],
-        ),
-    "ecmwf_aifs025_ensemble": ForecastModel(
-            provider = "ECMWF",
-            model_name = "AIFS 0.25° Ensemble",
-            type = "ensemble",
-            id = "ecmwf_aifs025_ensemble",
-            areas = [],
-        ),
-    "ncep_gefs025": ForecastModel(
-            provider = "NOAA NCEP",
-            model_name = "GFS 0.25 Ensemble",
-            type = "ensemble",
-            id = "ncep_gefs025",
-            areas = [],
-        ),
-    "ncep_gefs05": ForecastModel(
-            provider = "NOAA NCEP",
-            model_name = "GFS 0.5° Ensemble",
-            type = "ensemble",
-            id = "ncep_gefs05",
-            areas = [],
-        ),
-    "ncep_aigefs025": ForecastModel(
-            provider = "NOAA NCEP",
-            model_name = "AIGEFS 0.25°",
-            type = "ensemble",
-            id = "ncep_aigefs025",
-            areas = [],
-        ),
-    "meteoswiss_icon_ch1_ensemble": ForecastModel(
-            provider = "MeteoSwiss",
-            model_name = "ICON CH1",
-            type = "ensemble",
-            id = "meteoswiss_icon_ch1_ensemble",
-            areas = ['ch'],
-        ),
-    "meteoswiss_icon_ch2_ensemble": ForecastModel(
-            provider = "MeteoSwiss",
-            model_name = "ICON CH2",
-            type = "ensemble",
-            id = "meteoswiss_icon_ch2_ensemble",
-            areas = ['ch'],
-        ),
-    "ukmo_uk_ensemble_2km": ForecastModel(
-            provider = "UK Met Office",
-            model_name = "UKMO UK Ensemble 2 km",
-            type = "ensemble",
-            id = "ukmo_uk_ensemble_2km",
-            areas = ['gb'],
-        ),
-    "ukmo_global_ensemble_20km": ForecastModel(
-            provider = "UK Met Office",
-            model_name = "UKMO Global Ensemble 20 km",
-            type = "ensemble",
-            id = "ukmo_global_ensemble_20km",
-            areas = [],
-        ),
     "google_weathernext2_ensemble": ForecastModel(
             provider = "Google",
             model_name = "WeatherNext 2",
             type = "ensemble",
-            id = "google_weathernext2_ensemble",
+            id = "google_weathernext2_ensemble_mean",
             areas = [],
         ),
 }

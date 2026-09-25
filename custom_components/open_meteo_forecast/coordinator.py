@@ -13,21 +13,24 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
-    API_BASE_URL,
+    API_FORECASE_BASE_URL,
+    API_ENSEMBLE_BASE_URL,
     CONF_CURRENT_VARS,
     CONF_DAILY_VARS,
     CONF_FORECAST_DAYS,
     CONF_HOURLY_VARS,
     CONF_LATITUDE,
     CONF_LONGITUDE,
-    CONF_MODEL,
+    CONF_LOCATION,
+    CONF_MODEL_ID,
     CONF_PAST_DAYS,
     CONF_WEATHER_ENTITY,
     DOMAIN,
     WEATHER_CURRENT_VARS,
     WEATHER_DAILY_VARS,
     WEATHER_HOURLY_VARS,
-    wmo_to_ha_condition,
+    WEATHER_MODELS,
+    wmo_to_ha_condition, ForecastModel,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -70,18 +73,20 @@ class OpenMeteoCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         if not hourly_vars and not daily_vars and not current_vars:
             return {}
 
+        location = opts[CONF_LOCATION]
         params: dict[str, Any] = {
-            "latitude": opts[CONF_LATITUDE],
-            "longitude": opts[CONF_LONGITUDE],
+            "latitude": location[CONF_LATITUDE],
+            "longitude": location[CONF_LONGITUDE],
             "timezone": "auto",
             "wind_speed_unit": "kmh",
             "forecast_days": opts.get(CONF_FORECAST_DAYS, 7),
             "past_days": opts.get(CONF_PAST_DAYS, 0),
         }
 
-        model = opts.get(CONF_MODEL, "best_match")
-        if model != "best_match":
-            params["models"] = model
+        model_id = opts.get(CONF_MODEL_ID, "best_match")
+        if model_id != "best_match":
+            params["models"] = model_id
+        model:ForecastModel | None = WEATHER_MODELS.get(model_id)
 
         if hourly_vars:
             params["hourly"] = ",".join(hourly_vars)
@@ -90,9 +95,13 @@ class OpenMeteoCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         if current_vars:
             params["current"] = ",".join(current_vars)
 
+        url = API_FORECASE_BASE_URL
+        if model and model.type == "ensemble":
+            url = API_ENSEMBLE_BASE_URL
+
         try:
             async with self._session.get(
-                API_BASE_URL,
+                url,
                 params=params,
                 timeout=aiohttp.ClientTimeout(total=30),
             ) as resp:
