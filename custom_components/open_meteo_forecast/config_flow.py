@@ -203,10 +203,18 @@ class OpenMeteoOptionsFlow(config_entries.OptionsFlow):
         schema = vol.Schema(
             {
                 vol.Required(CONF_NAME, default=self._data.get(CONF_NAME, DEFAULT_NAME)): str,
-                vol.Required(CONF_LOCATION, default=default_location): LocationSelector(
+                vol.Required(CONF_LOCATION, default=self._data.get(CONF_LOCATION, default_location)): LocationSelector(
                     LocationSelectorConfig(radius=False)
                 ),
-                vol.Required(CONF_MODEL_ID, default=self._data.get(CONF_MODEL_ID, "best_match")): vol.In(_MODEL_KEYS),
+                vol.Required(CONF_MODEL_ID, msg = "Models details you can find at https://open-meteo.com/en/docs/model-updates",
+                             default=self._data.get(CONF_MODEL_ID, "best_match")): SelectSelector(
+                    SelectSelectorConfig(
+                        options=[
+                            SelectOptionDict(value=key, label=model.model_name)
+                            for key, model in WEATHER_MODELS.items()
+                        ]
+                    )
+                ),
                 vol.Required(CONF_WEATHER_ENTITY, default=self._data.get(CONF_WEATHER_ENTITY, True)): bool,
             }
         )
